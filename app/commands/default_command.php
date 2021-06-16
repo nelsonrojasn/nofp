@@ -2,7 +2,7 @@
 class DefaultCommand implements CommandInterface
 {
 
-	function __construct()
+	public function __construct()
 	{
 		$auth = new AuthFilter();
 		$auth->execute();

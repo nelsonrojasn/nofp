@@ -20,13 +20,14 @@ class LoginCommand implements CommandInterface
 			
 			$result = $reader->all($sql, [':login' => $user, ':clave' => $pass]);
 			
-			if ($result && count($result) > 0) {
+			if (! empty($result) ) {
 				//sesion correcta
 				Session::set('is_auth', true);
 				Session::set('uid', $result[0]['id']);
 				Session::set('uname', $result[0]['nombre']);
 			
-				return Redirect::to('');
+				Redirect::to();
+				return;
 			}
 		}
 
