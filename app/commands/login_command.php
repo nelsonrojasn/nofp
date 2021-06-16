@@ -26,7 +26,7 @@ class LoginCommand implements CommandInterface
 				Session::set('uid', $result[0]['id']);
 				Session::set('uname', $result[0]['nombre']);
 			
-				return Redirect::to(BASE_PATH);
+				return Redirect::to('');
 			}
 		}
 

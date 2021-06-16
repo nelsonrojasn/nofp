@@ -7,6 +7,6 @@ class Redirect
      */
     public static function to($route)
     {
-        header('Location: ' . $route, TRUE, 302);
+        header('Location: ' . BASE_PATH . $route, TRUE, 302);
     }
 }

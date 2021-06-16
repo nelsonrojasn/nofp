@@ -8,7 +8,7 @@ class LogoutCommand implements CommandInterface
 		Session::delete('uid');
 		Session::delete('uname');
 	
-		return Redirect::to(BASE_PATH);
+		return Redirect::to('');
 		
 	}
 }
