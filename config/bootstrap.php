@@ -134,7 +134,7 @@ function dispatch()
     $reflectCmd = new ReflectionClass($command);
     $cmd = $reflectCmd->newInstance(); //creamos la instancia
     
-    if ($srv) {
+    if (!empty($reflectSrv->getShortName())) {
         $srv->service($cmd, $template);    
     } else {
         throw(new Exception("$service not found", 1));

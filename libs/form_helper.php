@@ -19,17 +19,6 @@ class FormHelper {
         return "</form>";
     }
 
-    public static function input($field, $value = null, $options = '') {
-        if (strpos($field, "_id") !== FALSE) {
-            // render as dbSelect
-            if (strpos($field, '.') !== FALSE) {
-                return 'TBD';
-            }
-        } else {
-            return static::text($field, $value, $options);
-        }
-    }
-
     public static function text($field, $value = null, $options = '') {
         $inputId = $field;
         $inputName = $field;
@@ -178,59 +167,6 @@ class FormHelper {
 
     public static function submit($value, $options = '') {
         return "<button type=\"submit\" $options>$value</button>";
-    }
-
-    public static function day($field, $value = NULL, $attrs = '') {
-        $options = '';
-
-        list ( $id, $name ) = self::getFieldName($field);
-
-        for ($i = 1; $i <= 31; $i ++) {
-            $selected = self::selectedValue($value, $i);
-            $options .= "<option value=\"$i\" $selected>$i</option>";
-        }
-        return "<select id=\"$id\" name=\"$name\" $attrs>$options</select>";
-    }
-
-    public static function month($field, $value = NULL, $attrs = '') {
-        $options = '';
-
-        $months = [
-            1 => _('Enero'),
-            2 => _('Febrero'),
-            3 => _('Marzo'),
-            4 => _('Abril'),
-            5 => _('Mayo'),
-            6 => _('Junio'),
-            7 => _('Julio'),
-            8 => _('Agosto'),
-            9 => _('Septiembre'),
-            10 => _('Octubre'),
-            11 => _('Noviembre'),
-            12 => _('Diciembre')
-        ];
-
-        list ( $id, $name ) = self::getFieldName($field);
-
-        for ($i = 1; $i <= 12; $i ++) {
-            $selected = self::selectedValue($value, $i);
-            $options .= "<option value=\"$i\" $selected>$months[$i]</option>";
-        }
-        return "<select id=\"$id\" name=\"$name\" $attrs>$options</select>";
-    }
-
-    public static function year($field, $value = NULL, $attrs = '') {
-        $options = '';
-        $currentYear = date('Y');
-        $minYear = intVal($currentYear) - 100;
-
-        list ( $id, $name ) = self::getFieldName($field);
-
-        for ($i = $currentYear; $i >= $minYear; $i --) {
-            $selected = self::selectedValue($value, $i);
-            $options .= "<option value=\"$i\" $selected>$i</option>";
-        }
-        return "<select id=\"$id\" name=\"$name\" $attrs>$options</select>";
     }
 
     public static function selectedValue($value = '', $compareWith = '') {
