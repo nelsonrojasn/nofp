@@ -24,7 +24,7 @@ class Template
 		$this->_templateName = $templateName;
 	}	
 	
-	function __destruct()
+	public function __destruct()
 	{
 		extract($this->_variables);
 		

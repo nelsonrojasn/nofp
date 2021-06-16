@@ -31,7 +31,7 @@ class Request {
     }
 
     public static function isSafe() {
-        $result = filter_has_var(INPUT_POST, 'safetykey') ? $_POST ['safetykey'] : NULL;
+        $result = filter_has_var(INPUT_POST, 'safetykey') ? $_POST ['safetykey'] : '';
         if (strlen($result) != 66) {
             return FALSE;
         }

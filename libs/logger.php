@@ -24,7 +24,7 @@ class Logger
         			  'tmp' . DS . 'log' . DS . 'log_' . date('Y-m-d') . '.txt', 'a+');
 
         fwrite($arch, '[' . date('Y-m-d H:i:s.u') . ' ' . $_SERVER['REMOTE_ADDR'] . ' ' 
-        			. ' - $type ] ' . $message . "\n");
+        			. ' - ' . $type . ' ] ' . $message . "\n");
         fclose($arch);
     }
 }

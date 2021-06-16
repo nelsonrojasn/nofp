@@ -2,14 +2,14 @@
 
 class Security {
 
-    static function injectAntiCSRFHeader() {
+    public static function injectAntiCSRFHeader() {
         // Cross-Origin Resource Sharing Header
         header('Access-Control-Allow-Origin: http://127.0.0.1');
         header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
         header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, Accept');
     }
 
-    static function sanitize($input, $filter = FILTER_SANITIZE_STRING) {
+    public static function sanitize($input, $filter = FILTER_SANITIZE_STRING) {
         $result = trim($input);
         $result = stripslashes($result);
         $result = strip_tags($result);
@@ -22,12 +22,12 @@ class Security {
         return $result;
     }
 
-    static function getHashKey($key)
+    public static function getHashKey($key)
     {
         return $key . '.' . md5($key . SAFETY_SEED);
     }
 
-    static function isValidKey($hash)
+    public static function isValidKey($hash)
     {
         $elements = explode('.', $hash);
 
@@ -38,7 +38,7 @@ class Security {
         }
     }
 
-    static function getKeyValue($hash)
+    public static function getKeyValue($hash)
     {
         $elements = explode('.', $hash);
 

@@ -96,9 +96,8 @@ class QueryBuilder {
 
     /**
      * search
-     * @params params
      */
-    public function build($params = NULL) {
+    public function build() {
         $sql = 'SELECT ' . (empty($this->_columns) ? '*' : $this->_columns) . 
         	   ' ' . 'FROM ' . $this->_table . ' ';
 
@@ -161,9 +160,8 @@ class QueryBuilder {
     /**
      * delete
      * @params conditions
-     * @params params
      */
-    public function delete($conditions, $params) {
+    public function delete($conditions) {
         $sql = "DELETE FROM {$this->_table} WHERE {$conditions}";
 
         return $sql;
@@ -198,7 +196,7 @@ class QueryBuilder {
     /**
      * destruct
      */
-    function __destruct() {
+    public function __destruct() {
         $this->clear();
     }
 

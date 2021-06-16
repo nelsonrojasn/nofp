@@ -150,11 +150,9 @@ class FormHelper {
     }
 
     public static function label($field, $text, $options = '') {
-        $inputId = $field;
         $inputName = $field;
         if (strpos($field, '.') !== FALSE) {
             $elements = explode('.', $field);
-            $inputId = $elements [0] . '_' . $elements [1];
             $inputName = $elements [0] . '[' . $elements [1] . ']';
         }
         return "<label for=\"$inputName\" $options>$text</label>";

@@ -34,7 +34,7 @@ set_exception_handler(
             " line=" . $ex->getLine() . PHP_EOL . 
             $ex->getMessage());
 
-	    exit();
+	    return;
 
 
 	}
@@ -126,22 +126,21 @@ function dispatch()
 	$template = new Template();
 	
 
-    try {
-        $srv = new $service();
-        if ($srv) {
-            Logger::debug('existe');
-            $srv->service($command, $template);    
-        } else {
-            Logger::debug('no existe');
-            throw(new Exception("$service not found", 1));
-        }
-            
-    } catch (Exception $e) {
-        Logger::debug($e->getMessage());
-        $template->use('error');
-        $template->set('view', '');
-        $template->set('message', $e->getMessage());
+    
+    $reflectSrv = new ReflectionClass($service); //cargamos la clase por reflexion
+    $srv = $reflectSrv->newInstance(); //creamos la instancia
+    
+    
+    $reflectCmd = new ReflectionClass($command);
+    $cmd = $reflectCmd->newInstance(); //creamos la instancia
+    
+    if ($srv) {
+        $srv->service($cmd, $template);    
+    } else {
+        throw(new Exception("$service not found", 1));
     }
+            
+    
 
 }
 

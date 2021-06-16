@@ -2,5 +2,5 @@
 
 interface ServiceInterface
 {
-	public function service(string $command, $template);
+	public function service($command, $template);
 }
