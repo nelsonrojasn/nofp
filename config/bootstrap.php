@@ -106,12 +106,8 @@ function toPascalCase($input) {
 
 function dispatch() 
 {
-
-    //reconocer pagina seleccionada y accion
+    //reconocer servicio y accion, y ejecutarlos
     $url = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/';
-
-    Logger::debug($url);
-
 
     $content = explode('/', $url);
     array_shift($content); //quitar el elemento inicial vacio
@@ -122,26 +118,23 @@ function dispatch()
     
 	$command = toPascalCase(!empty($content[0]) ? trim($content[0]) : 'default');
 	$command .= 'Command';
+    array_shift($content); //mover el arreglo
 	
 	$template = new Template();
-	
-
+    $template->set('content', $content); //pasar el resto de parámetros en caso de existir
     
-    $reflectSrv = new ReflectionClass($service); //cargamos la clase por reflexion
+    $reflectSrv = new ReflectionClass($service); //cargamos el Servicio por reflexion
     $srv = $reflectSrv->newInstance(); //creamos la instancia
     
-    
-    $reflectCmd = new ReflectionClass($command);
+    $reflectCmd = new ReflectionClass($command); //cargamos el Comando por reflexion
     $cmd = $reflectCmd->newInstance(); //creamos la instancia
     
-    if (!empty($reflectSrv->getShortName())) {
-        $srv->service($cmd, $template);    
+    if (!empty($reflectSrv->getShortName())) { //revisamos la existencia del servicio
+        $srv->service($cmd, $template); 
+        //ejecutamos el método predeterminado pasando el objeto comando y el objeto template
     } else {
-        throw(new Exception("$service not found", 1));
+        throw(new Exception("Unable to dispatch", 1));
     }
-            
-    
-
 }
 
 

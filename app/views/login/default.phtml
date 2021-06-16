@@ -1,12 +1,12 @@
 
-<section class="hero is-info is-fullheight">
+<section class="hero is-light is-fullheight">
 	<div class="hero-body">
 		<div class="container">
 			<div class="column is-4 is-offset-4">
 				<div class="box">
 				<h1 class="title has-text-black">Login Form</h1>
 				<hr class="login-hr">
-				<?= FormHelper::open("/default/login") ;?>
+				<?= FormHelper::open("default/login") ;?>
                 	<?php if (!empty($mensaje)): ?>
                 	<div class="notification is-danger"><?= $mensaje?></div>
                 	<?php endif;?>

@@ -6,11 +6,15 @@ class FormHelper {
         if ($multipart !== FALSE) {
             $multipart = "enctype=\"multipart/form-data\"";
         }
-        return "<form method=\"$method\" action=\"$action\" $options $multipart >" . PHP_EOL . static::hidden('safetykey', md5(rand()) . chr(rand(65, 90)) . md5(SAFETY_SEED) . chr(rand(48, 57)));
+        
+        $action = BASE_PATH . $action;
+
+        return "<form method=\"$method\" action=\" $action\" $options $multipart >" . PHP_EOL . static::hidden('safetykey', md5(rand()) . chr(rand(65, 90)) . md5(SAFETY_SEED) . chr(rand(48, 57)));
     }
 
     public static function openMultipart($action, $method = 'post', $options = '') {
         $multipart = "enctype=\"multipart/form-data\"";
+        $action = BASE_PATH . $action;
 
         return "<form method=\"$method\" action=\"$action\" $options $multipart >" . PHP_EOL . static::hidden('safetykey', md5(rand()) . chr(rand(65, 90)) . md5(SAFETY_SEED) . chr(rand(48, 57)));
     }
