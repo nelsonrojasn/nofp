@@ -1,0 +1,51 @@
+<?php Security::injectAntiCSRFHeader();?>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+
+    <title><?= _(PROJECT_NAME); ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <?= Tag::css('bulma.min'); ?>
+    <?= Tag::css('style'); ?>
+    <?= Tag::css('font-awesome.min'); ?>
+    
+</head>
+
+<body>
+	
+	<nav class="navbar is-link">
+			<div class="container">
+				<div class="navbar-brand">
+					<a class="navbar-item brand-text" href="<?= BASE_PATH ?>"> 
+						<i class="fa fa-home"></i>&nbsp;Sistema
+					</a>
+					<div class="navbar-burger burger" data-target="navMenu">
+						<span></span> <span></span> <span></span>
+					</div>
+				</div>
+				<div id="navMenu" class="navbar-menu">
+					<div class="navbar-end">
+						<span class="navbar-item"><i class="fa fa-user"></i>&nbsp;Bienvenid@ <?= Session::get('uname')?> </span>
+						<a class="navbar-item" href="/default/logout"> <i class="fa fa-sign-out"></i> Cerrar Sesión </a>             			
+					</div>
+
+				</div>
+			</div>
+		</nav>
+		<!-- END NAV -->
+		<!-- START CONTAINER -->
+		<div class="container">
+    		<?php echo $yield; ?>
+			<?php Load::partial('footer'); ?>
+	    </div>
+
+    
+</body>
+
+</html>
+	
+

@@ -1,0 +1,41 @@
+<h1 class="title">Home</h1>
+
+<div id="content">
+	<pre>
+	<?php var_dump($usuarios); ?>
+	</pre>
+</div>
+
+<a href="#" onclick="callItem()">Try Ajax</a>
+
+<script>
+	function callItem()
+	{
+
+
+		var request = new XMLHttpRequest();
+		request.open('GET', '/ajax/ajax', true);
+
+		request.onload = function() {
+		  if (this.status >= 200 && this.status < 400) {
+		    // Success!
+		    var data = this.response;
+
+		    var content = document.querySelector("#content");
+		    content.innerHTML = data;
+
+		  } else {
+		    // We reached our target server, but it returned an error
+
+		  }
+		};
+
+		request.onerror = function() {
+		  // There was a connection error of some sort
+		};
+
+		request.send();
+
+
+	}
+</script>

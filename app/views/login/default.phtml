@@ -1,0 +1,28 @@
+
+<section class="hero is-info is-fullheight">
+	<div class="hero-body">
+		<div class="container">
+			<div class="column is-4 is-offset-4">
+				<div class="box">
+				<h1 class="title has-text-black">Login Form</h1>
+				<hr class="login-hr">
+				<?= FormHelper::open("/default/login") ;?>
+                	<?php if (!empty($mensaje)): ?>
+                	<div class="notification is-danger"><?= $mensaje?></div>
+                	<?php endif;?>
+                	<label class="label">Usuario:</label>
+					<input type="text" name="user" class="input"
+						autofocus required value="<?= $login ?? '' ?>" /><br> <label
+						class="label">Clave:</label> <input type="password"
+						name="pass" class="input" required />
+					<br><br>
+					<button type="submit" class="button is-block is-info is-large is-fullwidth">Enviar</button>
+				<?= FormHelper::close();?>
+				</div>
+			</div>
+			<?php Load::partial('footer'); ?>
+		</div>
+	</div>
+
+</section>
+

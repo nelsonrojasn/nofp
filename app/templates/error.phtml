@@ -1,0 +1,29 @@
+<?php Security::injectAntiCSRFHeader();?>
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+
+    <title><?= _(PROJECT_NAME); ?> - Exception Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <?= Tag::css('bulma.min'); ?>
+</head>
+
+<body>
+    <main class="container mt-6 pt-4">
+        <h1 class="title">Mantenga la calma</h1>
+
+        <span style="color:red"><?php echo $message ?? 'Oops, parece que algo no ha salido bien.' ; ?></span>
+        <br>
+        <?php echo $url ?? ''; ?>
+        <br><br>
+        <a href="/">Volver a la página principal</a>
+        <hr>
+        <?php Load::partial('footer'); ?>
+    </main>
+</body>
+
+</html>

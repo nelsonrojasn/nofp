@@ -1,0 +1,2 @@
+[2021-06-14 20:23:12.000000 127.0.0.1  - debug ] SELECT * FROM usuario  LIMIT 1 
+[2021-06-14 21:23:39.000000 127.0.0.1  - $type ] SELECT * FROM usuario  LIMIT 1 
