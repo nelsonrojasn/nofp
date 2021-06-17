@@ -69,8 +69,7 @@ class SqlBuilder {
         $this->_data = $data;    
     }
     
-    
-    private function _generateColumnsFor(string $what, string $from, string $where)
+    private function _generateDML(string $what, string $from, string $where)
     {
         if (strtoupper($what) == "INSERT") {
             $this->_fields = implode(', ', array_keys($this->_data));
@@ -111,7 +110,7 @@ class SqlBuilder {
 
 
         if (!empty($this->_function)) {
-            $result = $this->_generateColumnsFor($this->_function, $from, $where);
+            $result = $this->_generateDML($this->_function, $from, $where);
         } else {
             $result = 'SELECT ' . $select .
                       ' FROM ' . $from . ' ' . $join . ' ' .
