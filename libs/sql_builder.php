@@ -57,20 +57,28 @@ class SqlBuilder {
     }
     
     
-    private function _generateColumnsForInsert()
+    private function _generateColumnsFor(string $what, string $from, string $where)
     {
-        $this->_fields = implode(', ', array_keys($this->_data));
-        $this->_values = implode(', ', array_map(function($item) {
-            return ':' . $item;
-        }, array_keys($this->_data)));
+        if (strtoupper($what) == "INSERT") {
+            $this->_fields = implode(', ', array_keys($this->_data));
+            $this->_values = implode(', ', array_map(function($item) {
+                return ':' . $item;
+            }, array_keys($this->_data)));   
+            return 'INSERT INTO ' . $from . ' (' .
+                    $this->_fields . ') VALUES (' . $this->_values . ')'; 
+        } 
+        if (strtoupper($what) == "UPDATE") {
+            $this->_values = implode(', ', array_map(function($item) {
+                return $item . ' = :' . $item;
+            }, array_keys($this->_data)));
+            return 'UPDATE ' . $from . ' SET ' .
+                    $this->_values . ' ' . $where;
+        }
+        if (strtoupper($what) == "DELETE") {
+            return 'DELETE FROM ' . $from . ' ' . $where;
+        }
     }
     
-    private function _generateColumnsForUpdate()
-    {
-        $this->_values = implode(', ', array_map(function($item) {
-            return $item . ' = :' . $item;
-        }, array_keys($this->_data)));
-    }
     
     private function _generate()
     {
@@ -84,30 +92,17 @@ class SqlBuilder {
         
         $limit = implode(' ', array_unique($this->_limit));
         $limit = empty($limit) ? '' : ' LIMIT ' . $limit;
-        
-        switch ($this->_function)
-        {
-            case 'INSERT':
-                $this->_generateColumnsForInsert();
-                $result = 'INSERT INTO ' . $from . ' (' .
-                    $this->_fields . ') VALUES (' . $this->_values . ')';
-                break;
-            case 'UPDATE':
-                $this->_generateColumnsForUpdate();
-                $result = 'UPDATE ' . $from . ' SET ' .
-                    $this->_values . ' ' . $where;
-                break;
-            case 'DELETE':
-                $result = 'DELETE FROM ' . $from . ' ' . $where;
-                break;
-            default:
-                $select = implode(',', array_unique($this->_columns));
-                $select = empty($select) ? '*' : $select;
-                $result = 'SELECT ' . $select .
-                            ' FROM ' . $from . ' ' . $join . ' ' .
-                            $where . ' ' . $order . ' ' . $limit;
-                 
-                break;
+
+        $select = implode(',', array_unique($this->_columns));
+        $select = empty($select) ? '*' : $select;
+
+
+        if (!empty($this->_function)) {
+            $result = $this->_generateColumnsFor($this->_function, $from, $where);
+        } else {
+            $result = 'SELECT ' . $select .
+                      ' FROM ' . $from . ' ' . $join . ' ' .
+                      $where . ' ' . $order . ' ' . $limit;
         }
         
         return $result;
