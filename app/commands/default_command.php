@@ -11,9 +11,7 @@ class DefaultCommand implements CommandInterface
 	public function execute($template)
 	{
 		$reader = new Db();
-		$sql = (new QueryBuilder())->table('usuario')->limit(1)->build();
-
-		Logger::debug($sql);
+		$sql = (new QueryBuilder())->table('usuario')->limit(1)->select();
 
 		$result = $reader->all($sql);
 		

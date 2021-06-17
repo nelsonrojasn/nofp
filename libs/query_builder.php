@@ -95,9 +95,9 @@ class QueryBuilder {
     }
 
     /**
-     * search
+     * select
      */
-    public function build() {
+    public function select() {
         $sql = 'SELECT ' . (empty($this->_columns) ? '*' : $this->_columns) . 
         	   ' ' . 'FROM ' . $this->_table . ' ';
 
@@ -110,21 +110,20 @@ class QueryBuilder {
             '_orderBy'
         ];
 
-        foreach ($check_for as $element) :
-            if (!empty(trim($this->$element))) :
+        foreach ($check_for as $element) {
+            if (!empty(trim($this->$element))) {
                 $sql .= ' ' . $this->$element . ' ';
-            endif;
-
-        endforeach;
+            }
+        }
 
         return $sql;
     }
     
     /**
-     * add
+     * insert
      * @params params
      */
-    public function add($params) {
+    public function insert($params) {
         $fields = '';
         $values = '';
 
@@ -180,10 +179,9 @@ class QueryBuilder {
             '_limit',
             '_orderBy'
         ];
-        foreach ($clear_in as $elem) :
+        foreach ($clear_in as $elem) {
             $this->$elem = '';
-        endforeach
-        ;
+        }
 
         $cuentaMax = count($this->_queries);
 
@@ -197,6 +195,7 @@ class QueryBuilder {
      * destruct
      */
     public function __destruct() {
+        
         $this->clear();
     }
 
