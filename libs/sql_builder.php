@@ -46,11 +46,24 @@ class SqlBuilder {
         }
     }
 
-    public function addFunction(string $function)
+    public final function insert(string $table)
     {
-        $this->_function = strtoupper($function);
+        $this->_function = "INSERT";
+        $this->_from[] = $table;
     }
-    
+
+    public final function update(string $table)
+    {
+        $this->_function = "UPDATE";
+        $this->_from[] = $table;
+    }
+
+    public final function delete(string $table)
+    {
+        $this->_function = "DELETE";
+        $this->_from[] = $table;
+    }
+
     public function addData(array $data)
     {
         $this->_data = $data;    
