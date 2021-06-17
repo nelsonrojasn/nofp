@@ -20,7 +20,11 @@ spl_autoload_register(
 
 set_exception_handler(
 	function ($ex) {
-	    error_log("Uncaught exception class=" . get_class($ex) . " message=" . $ex->getMessage() . " line=" . $ex->getLine());
+        $message = "Uncaught exception " . get_class($ex) . 
+                  " \n" . $ex->getMessage() . 
+                  " \nOn " . $ex->getFile() .  
+                  " \nLine " . $ex->getLine();
+        error_log($message);
 	    ob_end_clean(); # try to purge content sent so far
 	    header('HTTP/1.1 500 Internal Server Error');
 	    //header("Location: " . PUBLIC_PATH . "500",TRUE,307);
@@ -28,11 +32,7 @@ set_exception_handler(
         $template = new Template();
         $template->use('error');
         $template->set('view', '');
-        $template->set('message', 
-            "Uncaught exception class=" . get_class($ex) . 
-            " message=" . $ex->getMessage() . 
-            " line=" . $ex->getLine() . PHP_EOL . 
-            $ex->getMessage());
+        $template->set('message',$message);
 
 	    return;
 

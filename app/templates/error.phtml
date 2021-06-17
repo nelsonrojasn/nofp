@@ -16,7 +16,7 @@
     <main class="container mt-6 pt-4">
         <h1 class="title">Mantenga la calma</h1>
 
-        <span style="color:red"><?php echo $message ?? 'Oops, parece que algo no ha salido bien.' ; ?></span>
+        <span style="color:red"><?php echo nl2br($message) ?? 'Oops, parece que algo no ha salido bien.' ; ?></span>
         <br>
         <?php echo $url ?? ''; ?>
         <br><br>

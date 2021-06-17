@@ -15,13 +15,12 @@ class LoginCommand implements CommandInterface
 		if (!empty($user) && !empty($pass)) {
 			//validar acceso contra la base de datos
 			$reader = new Db();
-			$sql = (new QueryBuilder())
-				->table('usuario')
-				->condition('login = :login AND clave = :clave')
-				->limit(1)
-				->select();
+			$sql = new SqlBuilder();
+
+			$sql->addTable('usuario');
+			$sql->addWhat(['conditions: login = :login AND clave = :clave', 'limit: 1']);
 			
-			$result = $reader->all($sql, [':login' => $user, ':clave' => $pass]);
+			$result = $reader->find_first($sql, [':login' => $user, ':clave' => $pass]);
 			
 			if (! empty($result) ) {
 				//sesion correcta
