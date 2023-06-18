@@ -10,15 +10,14 @@ class DefaultCommand implements CommandInterface
 
 	public function execute($template)
 	{
-		$reader = new Db();
 		$sql = new SqlBuilder();
 		$sql->addTable('usuario');
 		$sql->addWhat(['limit: 1']);
 
-		$result = $reader->find_first($sql);
+		$result = Db::findFirst($sql);
 		
 		$template->set('usuarios', $result);
-		$template->set('timestamp', $reader->select_one('SELECT CURRENT_TIMESTAMP'));
+		$template->set('timestamp', Db::getScalar('SELECT CURRENT_TIMESTAMP'));
 		$template->set('view', 'default/default');
 		
 	}

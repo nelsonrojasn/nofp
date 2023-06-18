@@ -20,8 +20,7 @@ class Logger
 
     public static function write($type = 'debug', $message = '')
     {
-        $arch = fopen(realpath(ROOT) . DS . 'app' . DS . 
-        			  'tmp' . DS . 'log' . DS . 'log_' . date('Y-m-d') . '.txt', 'a+');
+        $arch = fopen(realpath(APP_PATH) . 'log' . DS . 'log_' . date('Y-m-d') . '.txt', 'a+');
 
         fwrite($arch, '[' . date('Y-m-d H:i:s.u') . ' ' . $_SERVER['REMOTE_ADDR'] . ' ' 
         			. ' - ' . $type . ' ] ' . $message . "\n");

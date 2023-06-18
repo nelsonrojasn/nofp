@@ -33,15 +33,13 @@ class Template
 		if (!empty($view)){
 			ob_start('ob_gzhandler');
 			
-			include ROOT . DS . 'app' . DS . 
-					'views' . DS . $view . '.phtml';
+			include APP_PATH . 'views' . DS . $view . '.phtml';
 		
 			$yield = ob_get_clean();	
 		}
 		
 		if (!empty($this->_templateName)) {
-			include ROOT . DS . 'app' . DS . 
-					'templates' . DS . $this->_templateName . '.phtml';
+			include APP_PATH . 'templates' . DS . $this->_templateName . '.phtml';
 		} else {
 			echo $yield;
 		}
