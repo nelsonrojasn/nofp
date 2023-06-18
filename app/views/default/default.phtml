@@ -20,7 +20,7 @@
 
 
 		var request = new XMLHttpRequest();
-		request.open('GET', '/ajax/ajax', true);
+		request.open('GET', '<?= BASE_PATH ?>ajax/ajax', true);
 
 		request.onload = function() {
 		  if (this.status >= 200 && this.status < 400) {

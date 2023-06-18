@@ -2,12 +2,13 @@
 
 spl_autoload_register(
     function($className) {
-        $file = from_camel_case(trim($className)) . '.php';
-        $findOn = [ROOT . DS . 'libs' . DS, 
-        		   ROOT . DS . 'app' . DS . 'commands' . DS,
-        		   ROOT . DS . 'app' . DS . 'interfaces' . DS,
-        		   ROOT . DS . 'app' . DS . 'services' . DS, 
-                   ROOT . DS . 'app' . DS . 'filters' . DS	];
+        $file = fromCamelCase(trim($className)) . '.php';
+        $findOn = [CORE_PATH, 
+                   APP_PATH . 'libs' . DS,
+        		   APP_PATH . 'commands' . DS,
+        		   APP_PATH . 'interfaces' . DS,
+        		   APP_PATH . 'services' . DS, 
+                   APP_PATH . 'filters' . DS	];
         
         foreach($findOn as $f) {
         	if (file_exists($f. $file)) {
@@ -90,7 +91,7 @@ function unregisterGlobals() {
  * @param string $input
  * @return string
  */
-function from_camel_case($input) {
+function fromCamelCase($input) {
     $matches = null;
     preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $input, $matches);
     $ret = $matches[0];
@@ -105,47 +106,42 @@ function toPascalCase($input) {
 }
 
 
-function dispatch() 
+function dispatch($url) 
 {
-    //reconocer servicio y accion, y ejecutarlos
-    $url = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/';
-
     $content = explode('/', $url);
-    array_shift($content); //quitar el elemento inicial vacio
+    //quitar el elemento inicial vacio
+    array_shift($content); 
     
-    $service = toPascalCase(!empty($content[0]) ? trim($content[0]) : 'default');
+    $service = toPascalCase(!empty($content[0]) ? trim($content[0]) : Config::DEFAULT_SERVICE);
     $service .= 'Service'; 
-    array_shift($content); //mover el arreglo
+    //mover el arreglo
+    array_shift($content); 
     
-	$command = toPascalCase(!empty($content[0]) ? trim($content[0]) : 'default');
+	$command = toPascalCase(!empty($content[0]) ? trim($content[0]) : Config::DEFAULT_COMMAND);
 	$command .= 'Command';
-    array_shift($content); //mover el arreglo
+    //mover el arreglo
+    array_shift($content); 
 	
 	$template = new Template();
-    $template->set('content', $content); //pasar el resto de parámetros en caso de existir
+    //pasar el resto de parámetros en caso de existir
+    $template->set('content', $content); 
     
-    $reflectSrv = new ReflectionClass($service); //cargamos el Servicio por reflexion
-    $srv = $reflectSrv->newInstance(); //creamos la instancia
+    //cargamos el Servicio por reflexion
+    $reflectSrv = new ReflectionClass($service); 
+    //creamos la instancia
+    $srv = $reflectSrv->newInstance(); 
     
-    $reflectCmd = new ReflectionClass($command); //cargamos el Comando por reflexion
-    $cmd = $reflectCmd->newInstance(); //creamos la instancia
+    //cargamos el Comando por reflexion
+    $reflectCmd = new ReflectionClass($command); 
+    //creamos la instancia
+    $cmd = $reflectCmd->newInstance(); 
     
-    if (!empty($reflectSrv->getShortName())) { //revisamos la existencia del servicio
-        $srv->service($cmd, $template); 
+    //revisamos la existencia del servicio
+    if (!empty($reflectSrv->getShortName())) { 
         //ejecutamos el método predeterminado pasando el objeto comando y el objeto template
+        $srv->service($cmd, $template);         
     } else {
         throw(new Exception("Unable to dispatch", 1));
     }
 }
 
-
-/**
- * sanitizar los elementos que pudieran haberse ingresado
- */
-removeMagicQuotes();
-unregisterGlobals();
-
-/**
- * llamar al despachador
- */
-dispatch();
